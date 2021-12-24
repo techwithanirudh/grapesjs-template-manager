@@ -85,13 +85,19 @@ body, html {
 ## Extensions
 * Add create template and add page
 ```js
+// Template manager built by Ju99ernaut
+
 // Add a new template
 editor.TemplateManager.addTemplate = function (name, projectId, components) {
-  this.add(name, projectId, true);
+  this.add(name, projectId, true, components);
 };
 
-// Add a new site
-editor.TemplateManager.add = function (name, projectId) {
+editor.TemplateManager.add = function (
+  name,
+  projectId,
+  isTemplate = false,
+  components = ""
+) {
   var state = editor.TemplateManager.state;
 
   state.nameText = name;
@@ -104,7 +110,7 @@ editor.TemplateManager.add = function (name, projectId) {
   editor.TemplateManager.handleCreate();
 
   editor.on("storage:load", function () {
-    editor.StorageManager.getCurrentStorage().isTemplate = true;
+    editor.StorageManager.getCurrentStorage().isTemplate = isTemplate;
     editor.setComponents(components);
     editor.store();
     editor.TemplateManager.render();
