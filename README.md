@@ -82,6 +82,35 @@ body, html {
     * `firestore`
     * `rest-api`
 
+## Extensions
+* Add create template and add page
+```js
+// Add a new template
+editor.TemplateManager.addTemplate = function (name, projectId, components) {
+  this.add(name, projectId, true);
+};
+
+// Add a new site
+editor.TemplateManager.add = function (name, projectId) {
+  var state = editor.TemplateManager.state;
+
+  state.nameText = name;
+
+  if (projectId) {
+    state.projectId = projectId;
+  }
+
+  editor.TemplateManager.setState(state);
+  editor.TemplateManager.handleCreate();
+
+  editor.on("storage:load", function () {
+    editor.StorageManager.getCurrentStorage().isTemplate = true;
+    editor.setComponents(components);
+    editor.store();
+    editor.TemplateManager.render();
+  });
+};
+```
 ## Options
 
 | Option | Description | Default |
